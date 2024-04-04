@@ -18,8 +18,8 @@ public class Main {
 
 //构造表示分数的类Fraction
 class Fraction {
-    int a; //分子
-    int b; //分母
+    private int a; //分子
+    private int b; //分母
     Fraction(int a,int b)
     {
         this.a = a;
