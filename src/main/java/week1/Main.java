@@ -20,7 +20,7 @@ public class Main {
 class Fraction {
     private int a; //分子
     private int b; //分母
-    Fraction(int a,int b)
+    public Fraction(int a,int b)
     {
         this.a = a;
         this.b = b;
