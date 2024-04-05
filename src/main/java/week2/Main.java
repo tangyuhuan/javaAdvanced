@@ -29,6 +29,7 @@ class Clock{
         }
     }
     public String toString(){
+        //每个数值都占两位，不足两位时补0
         String str = String.format("%02d:%02d:%02d",hour.getValue(),minute.getValue(),second.getValue());
         return str;
     }
