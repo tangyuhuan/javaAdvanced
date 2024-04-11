@@ -41,13 +41,14 @@ public class NoteBook3 {
     }
     public static void main(String[] args) {
         int[] ia = new int[10];
-        //for-each循环：在循环的每一轮的k，是对元素的复制品，不改变数组元素本身
+        //for-each循环：对于基本类型的数组来说，在循环的每一轮的k，是对元素的复制品，不改变数组元素本身
         for(int k:ia){
             k++;
         }
         for(int i=0;i<ia.length;i++){
             System.out.println(ia[i]);
         }
+//        对于对象类型的数组（例如String[]），for-each循环可以修改数组中的元素，因为它们是对象引用，可以拿到数组元素所管理的那个对象，对这个对象进行操作。
         Value[] values = new Value[10];
         for (int k = 0; k < values.length; k++) {
             values[k] = new Value();

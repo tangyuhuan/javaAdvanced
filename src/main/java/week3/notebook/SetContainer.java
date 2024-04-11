@@ -29,11 +29,26 @@ public class SetContainer {
         set2.add(999);
         set2.add(1);
         System.out.println(set2);//[a, b]
+
+        //放进容器的是对象的管理者，若修改了放进去的对象，容器中的对象会变化
+        HashSet<Value1> valueSet = new HashSet<Value1>();
+        Value1 v1 = new Value1(123);
+        valueSet.add(v1);
+        valueSet.add(new Value1(456));
+        System.out.println(valueSet);
+        v1.setValue(789);
+        System.out.println(valueSet);
+
     }
 }
 
 class Value1{
     private int value;
+    public Value1(){
+    }
+    public Value1(int value){
+        this.value = value;
+    }
     public void setValue(int value){
         this.value = value;
     }

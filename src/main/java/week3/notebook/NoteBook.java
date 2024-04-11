@@ -29,12 +29,16 @@ public class NoteBook {
         notes.toArray(a); //把ArrayList notes中的内容填入数组a中
         return a;
     }
+    public ArrayList<String> getNotes(){
+        return notes;
+    }
     public static void main(String[] args) {
         NoteBook nb = new NoteBook();
         String str1 = "first";
         nb.add(str1);
         nb.add("second");
         nb.add("third",1);
+        System.out.println(nb.getNotes());//ArrayList的toString方法，输出[first, third, second]
         System.out.println(nb.getSize());
         System.out.println(nb.getNote(0));
         System.out.println(nb.getNote(1));//third

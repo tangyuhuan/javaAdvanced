@@ -2,14 +2,19 @@ package week1.VendingMachine;
 
 //自动售货机
 //对象变量是对象的管理者
+//java提供了多种手段来保障对象创建时的初始化，包括：
+//1.给每个成员变量默认值0
+//2.定义初始化函数
+//3.定义构造函数
 public class VendingMachine {
     int price = 70;//定价
     int balance = f();//现在你投入的钱，余额
-    int total;//总收入
-
+    int total;//1.给每个成员变量默认值0
+    //2.定义初始化函数
     int f(){
         return 10;
     }
+    //3.定义构造函数
     VendingMachine()//构造函数：名字和类名完全相同，不能有返回类型
     {
         total = 0;
