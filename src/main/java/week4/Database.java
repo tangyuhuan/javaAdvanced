@@ -1,6 +1,8 @@
 package week4;
 
 import java.util.ArrayList;
+import java.util.Objects;
+
 //继承与多态
 //CD资料库（存放CD的容器）
 //定义父类Item后，Database不再直接管理CD和DVD类，而是管理item类
