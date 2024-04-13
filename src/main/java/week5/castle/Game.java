@@ -1,12 +1,17 @@
 package week5.castle;
 
+import java.util.HashMap;
 import java.util.Scanner;
-
+/*今后如果想增加新的handler的类型，只要修改两个地方
+1.增加一个handlerXXXX继承handler
+2.修改Game的构造函数，完全不需要修改play()*/
 public class Game {
     private Room currentRoom;
-        
-    public Game() 
-    {
+    HashMap<String, Handler> handlers = new HashMap<String, Handler>();
+    public Game(){
+        handlers.put("go",new HandlerGo(this));
+        handlers.put("bye",new HandlerBye(this));
+        handlers.put("help",new HandlerHelp(this));
         createRooms();
     }
 
@@ -46,16 +51,15 @@ public class Game {
         System.out.println();
         showPrompt();
     }
-
     // 以下为用户命令
-
-    private void printHelp() 
-    {
-        System.out.print("迷路了吗？你可以做的命令有：go bye help");
-        System.out.println("如：\tgo east");
-    }
+//    private void printHelp()
+//    {
+//        System.out.print("迷路了吗？你可以做的命令有：go bye help");
+//        System.out.println("如：\tgo east");
+//    }
     //根据一个direction 返回Room
-    private void goRoom(String direction) 
+    //goRoom是game的成员函数
+    public void goRoom(String direction)
     {
         Room nextRoom = currentRoom.getExit(direction);
 //        Room nextRoom = null;
@@ -71,7 +75,6 @@ public class Game {
 //        if(direction.equals("west")) {
 //            nextRoom = currentRoom.westExit;
 //        }
-
         if (nextRoom == null) {
             System.out.println("那里没有门！");
         }
@@ -95,28 +98,43 @@ public class Game {
         System.out.println();
     }
 
+    public void play(Game game){
+        /*命令解析的硬编码改造：
+        函数不是对象，不能直接用hashmap存储*/
+        while ( true ) {
+            Scanner in = new Scanner(System.in);
+            String line = in.nextLine();
+            String[] words = line.split(" ");
+            Handler handler = handlers.get(words[0]);
+//            bye和help是没有words[1]的
+            String value = "";
+            if(words.length > 1) {
+                value = words[1];
+            }
+            if(handler!=null){
+                handler.doCmd(value);
+                if(handler.isBye()){
+                    break;
+                }
+            }
 
+//            if ( words[0].equals("help") ) {
+//                game.printHelp();
+//            } else if (words[0].equals("go") ) {
+//                game.goRoom(words[1]);
+//            } else if ( words[0].equals("bye") ) {
+//                break;
+//            }
+        }
+    }
 
 	public static void main(String[] args) {
-		Scanner in = new Scanner(System.in);
 		Game game = new Game();
 		game.printWelcome();
-/*        命令解析的硬编码改造：
-        函数不是对象*/
-        while ( true ) {
-        		String line = in.nextLine();
-        		String[] words = line.split(" ");
-        		if ( words[0].equals("help") ) {
-        			game.printHelp();
-        		} else if (words[0].equals("go") ) {
-        			game.goRoom(words[1]);
-        		} else if ( words[0].equals("bye") ) {
-        			break;
-        		}
-        }
+        game.play(game);
         
         System.out.println("感谢您的光临。再见！");
-        in.close();
+//        in.close();
 	}
 
 }
