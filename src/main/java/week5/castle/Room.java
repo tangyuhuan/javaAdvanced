@@ -2,6 +2,7 @@ package week5.castle;
 
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.Objects;
 
 /*通过封装getExitDesc、getExit来降低耦合*/
 public class Room {
@@ -21,6 +22,8 @@ public class Room {
     public String toString() {
         return description;
     }
+
+
 
     public String getExitDesc() {
         //如果用String字符串做拼接的话，每次都会产生一个新的String对象，开销很大
