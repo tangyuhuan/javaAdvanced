@@ -8,7 +8,12 @@ public class HandlerHelp extends Handler {
     @Override
     public void doCmd(String cmd) {
         super.doCmd(cmd);
-        System.out.print("迷路了吗？你可以做的命令有：go bye help");
+        System.out.print("迷路了吗？你可以做的命令有："+cmd);
         System.out.println("如：\tgo east");
+    }
+
+    @Override
+    public boolean isHelp() {
+        return true;
     }
 }

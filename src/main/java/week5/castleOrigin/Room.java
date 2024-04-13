@@ -1,4 +1,4 @@
-package castle;
+package week5.castleOrigin;
 
 public class Room {
     public String description;

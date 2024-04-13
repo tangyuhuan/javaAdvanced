@@ -1,4 +1,4 @@
-package castle;
+package week5.castleOrigin;
 
 import java.util.Scanner;
 

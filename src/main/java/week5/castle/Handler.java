@@ -11,5 +11,8 @@ public class Handler {
     public boolean isBye(){
         return false;
     }
+    public boolean isHelp(){
+        return false;
+    }
 
 }

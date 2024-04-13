@@ -112,10 +112,13 @@ public class Game {
                 value = words[1];
             }
             if(handler!=null){
-                handler.doCmd(value);
                 if(handler.isBye()){
                     break;
                 }
+                if(handler.isHelp()){
+                    value = handlers.keySet().toString().substring(1,handlers.keySet().toString().length()-1);
+                }
+                handler.doCmd(value);
             }
 
 //            if ( words[0].equals("help") ) {
