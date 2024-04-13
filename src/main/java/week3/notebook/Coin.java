@@ -19,7 +19,7 @@ public class Coin {
         System.out.println(coinnames.keySet().size());//keySet方法获取散列表中所有键的集合
         System.out.println(coinnames);//HashTable有toString方法，可以直接输出，{1=penny, 50=五毛, 25=quarter, 10=dime}
         //HashTable的遍历
-        //通过keySet方法获取散列表中所有键的集合，遍历键值
+        //keySet方法获取散列表中所有键的集合，遍历键值
         for(Integer key : coinnames.keySet()){
             System.out.println(coinnames.get(key));
         }
