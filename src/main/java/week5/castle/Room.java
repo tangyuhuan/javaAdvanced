@@ -24,7 +24,9 @@ public class Room {
     }
 
 
-
+    public String[] getExitArray(){
+        return exits.keySet().toArray(new String[0]);//集合转数组
+    }
     public String getExitDesc() {
         //如果用String字符串做拼接的话，每次都会产生一个新的String对象，开销很大
         //而StringBuilder是一个不断修改的对象

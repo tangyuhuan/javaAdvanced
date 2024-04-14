@@ -1,7 +1,9 @@
 package week5.castle;
 
 import java.util.HashMap;
+import java.util.ArrayList;
 import java.util.Scanner;
+
 /*今后如果想增加新的handler的类型，只要修改两个地方
 1.增加一个handlerXXXX继承handler
 2.修改Game的构造函数，完全不需要修改play()*/
@@ -9,41 +11,53 @@ public class Game {
     private Room currentRoom;
     private int count;
     HashMap<String, Handler> handlers = new HashMap<String, Handler>();
-    public Game(int count){
+    ArrayList<Room> rooms = new ArrayList<Room>();
+    private int randomDoorFlag;
+
+    public Game(int count) {
         this.count = count;
-        handlers.put("go",new HandlerGo(this));
-        handlers.put("bye",new HandlerBye(this));
-        handlers.put("help",new HandlerHelp(this));
+        handlers.put("go", new HandlerGo(this));
+        handlers.put("bye", new HandlerBye(this));
+        handlers.put("help", new HandlerHelp(this));
         createRooms();
     }
 
-    private void createRooms()
-    {
-        Room outside, lobby, pub, study, bedroom,secretoom;
-      
+    public void setRandomDoorFlag(int randomDoorFlag) {
+        this.randomDoorFlag = randomDoorFlag;
+    }
+
+    private void createRooms() {
+        Room outside, lobby, pub, study, bedroom, secreroom;
+
         //	制造房间
         outside = new Room("城堡外");
         lobby = new Room("大堂");
         pub = new Room("小酒吧");
         study = new Room("书房");
         bedroom = new Room("卧室");
-        secretoom = new Room("秘密基地");
-        
+        secreroom = new Room("秘密基地");
+        rooms.add(outside);
+        rooms.add(lobby);
+        rooms.add(pub);
+        rooms.add(study);
+        rooms.add(bedroom);
+        rooms.add(secreroom);
+
         //	初始化房间的出口 north, east, south, west
-        outside.setExit("east",lobby);
-        outside.setExit("west",pub);
-        outside.setExit("south",study);
-        lobby.setExit("west",outside);
+        outside.setExit("east", lobby);
+        outside.setExit("west", pub);
+        outside.setExit("south", study);
+        lobby.setExit("west", outside);
         /*扩展 up和down出口，就不需要修改room，故room有较好的可扩展性 */
-        lobby.setExit("up",pub);
-        pub.setExit("down",lobby);
+        lobby.setExit("up", pub);
+        pub.setExit("down", lobby);
         /*扩展*/
         pub.setExit("east", outside);
-        study.setExit("north",outside);
-        study.setExit("east",bedroom);
-        bedroom.setExit("west",study);
-        bedroom.setExit("down",secretoom);
-        secretoom.setExit("up",bedroom);
+        study.setExit("north", outside);
+        study.setExit("east", bedroom);
+        bedroom.setExit("west", study);
+        bedroom.setExit("down", secreroom);
+        secreroom.setExit("up", bedroom);
 
         currentRoom = outside;  //	从城堡门外开始
     }
@@ -56,42 +70,70 @@ public class Game {
         System.out.println();
         showPrompt();
     }
+
     // 以下为用户命令
 //    private void printHelp()
 //    {
 //        System.out.print("迷路了吗？你可以做的命令有：go bye help");
 //        System.out.println("如：\tgo east");
 //    }
-    //根据一个direction 返回Room
-    //goRoom是game的成员函数
-    public void goRoom(String direction)
-    {
-        Room nextRoom = currentRoom.getExit(direction);
-//        Room nextRoom = null;
-//        if(direction.equals("north")) {
-//            nextRoom = currentRoom.northExit;
-//        }
-//        if(direction.equals("east")) {
-//            nextRoom = currentRoom.eastExit;
-//        }
-//        if(direction.equals("south")) {
-//            nextRoom = currentRoom.southExit;
-//        }
-//        if(direction.equals("west")) {
-//            nextRoom = currentRoom.westExit;
-//        }
 
+/*三种任意门：
+1.某个房间 某个出口出去，会到达任意房间
+2.任意门只在这个房间所有门之间轮转
+3.任意门只在这个城堡所有门之间轮转*/
+    public void goRoom(String direction) {
+        if (randomDoorFlag == 1) {
+            //任意门是固定的房间和方向，lobby，west
+            //从这个房间的这个出口出去，每次都会走到不同的房间
+            if ((currentRoom==rooms.get(1))&&(direction.equals("west"))) {
+                initRandomDoor(randomDoorFlag);
+            }else{
+                goRoomDefault(direction);
+            }
+        } else if (randomDoorFlag == 2) {
+            //任意门是固定的房间lobby
+            if (currentRoom==rooms.get(1)){
+                int random = (int) Math.round(Math.random());
+                if(random==1) {
+                    initRandomDoor(randomDoorFlag);
+                }else{
+                    goRoomDefault(direction);
+                }
+            }else{
+                goRoomDefault(direction);
+            }
+        } else if (randomDoorFlag == 3) {
+            //任意门是所有房间的某一个门
+            int random = (int) Math.round(Math.random());
+            if(random==1) {
+                initRandomDoor(randomDoorFlag);
+            }else{
+                goRoomDefault(direction);
+            }
+        } else {
+            goRoomDefault(direction);
+        }
+
+        showPrompt();
+    }
+    public void initRandomDoor( int randomDoorFlag){
+        RandomDoor rd = new RandomDoor(rooms);
+        currentRoom = rd.getRoom();
+        System.out.println("任意门"+randomDoorFlag+"开启！！来到房间" + currentRoom);
+    }
+    public void goRoomDefault(String direction){
+        Room nextRoom = currentRoom.getExit(direction);
         if (nextRoom == null) {
             System.out.println("那里没有门！");
-        }
-        else {
+            return;
+        } else {
             currentRoom = nextRoom;
-            showPrompt();
         }
     }
-	public void showPrompt(){
+    public void showPrompt() {
         System.out.println("你在" + currentRoom);
-        if(currentRoom.toString().equals("秘密基地")){
+        if (currentRoom.toString().equals("秘密基地")) {
             System.out.println("找到了！");
             return;
         }
@@ -109,11 +151,11 @@ public class Game {
         System.out.println();
     }
 
-    public void play(Game game){
+    public void play(Game game) {
         /*命令解析的硬编码改造：
         函数不是对象，不能直接用hashmap存储*/
 
-        while ( count>0 ) {
+        while (count > 0) {
             count--;
             Scanner in = new Scanner(System.in);
             String line = in.nextLine();
@@ -121,15 +163,15 @@ public class Game {
             Handler handler = handlers.get(words[0]);
 //            bye和help是没有words[1]的
             String value = "";
-            if(words.length > 1) {
+            if (words.length > 1) {
                 value = words[1];
             }
-            if(handler!=null){
-                if(handler.isBye()){
+            if (handler != null) {
+                if (handler.isBye()) {
                     break;
                 }
-                if(handler.isHelp()){
-                    value = handlers.keySet().toString().substring(1,handlers.keySet().toString().length()-1);
+                if (handler.isHelp()) {
+                    value = handlers.keySet().toString().substring(1, handlers.keySet().toString().length() - 1);
                 }
                 handler.doCmd(value);
             }
@@ -145,13 +187,14 @@ public class Game {
         System.out.println("机会已经用完");
     }
 
-	public static void main(String[] args) {
-		Game game = new Game(5);
-		game.printWelcome();
+    public static void main(String[] args) {
+        Game game = new Game(5);
+        game.printWelcome();
+//        game.setRandomDoorFlag(1);//go east+go west
+        game.setRandomDoorFlag(2);//go east
         game.play(game);
-        
         System.out.println("感谢您的光临。再见！");
 //        in.close();
-	}
+    }
 
 }
