@@ -3,15 +3,12 @@ package week5.castle;
 import java.util.ArrayList;
 import java.util.HashSet;
 
-/*三种任意门：
-1.某个房间 某个出口出去，会到达任意房间
-2.任意门只在这个房间所有门之间轮转
-3.任意门只在这个城堡所有门之间轮转*/
+/*任意门：会到达任意房间*/
 public class RandomDoor {
-//    private Room room;
+    //    private Room room;
 //    private String direction;
     private ArrayList<Room> rooms;
-    private String[] ExitArray;
+//    private String[] ExitArray;
 
     public RandomDoor(ArrayList<Room> rooms) {
         this.rooms = rooms;
