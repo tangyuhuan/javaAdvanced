@@ -78,51 +78,37 @@ public class Game {
 //        System.out.println("如：\tgo east");
 //    }
 
-/*三种任意门：
-1.某个房间 某个出口出去，会到达任意房间
-2.任意门只在这个房间所有门之间轮转
-3.任意门只在这个城堡所有门之间轮转*/
+    /*三种任意门：
+    1.某个房间 某个出口出去，会到达任意房间
+    2.任意门只在这个房间所有门之间轮转
+    3.任意门只在这个城堡所有门之间轮转*/
     public void goRoom(String direction) {
-        if (randomDoorFlag == 1) {
+        if ((randomDoorFlag == 1)&&((currentRoom == rooms.get(1)) && (direction.equals("west")))) {
             //任意门是固定的房间和方向，lobby，west
             //从这个房间的这个出口出去，每次都会走到不同的房间
-            if ((currentRoom==rooms.get(1))&&(direction.equals("west"))) {
-                initRandomDoor(randomDoorFlag);
-            }else{
-                goRoomDefault(direction);
-            }
-        } else if (randomDoorFlag == 2) {
-            //任意门是固定的房间lobby
-            if (currentRoom==rooms.get(1)){
-                int random = (int) Math.round(Math.random());
-                if(random==1) {
-                    initRandomDoor(randomDoorFlag);
-                }else{
-                    goRoomDefault(direction);
-                }
-            }else{
-                goRoomDefault(direction);
-            }
-        } else if (randomDoorFlag == 3) {
-            //任意门是所有房间的某一个门
+            initRandomDoor(randomDoorFlag);
+        } else if (((randomDoorFlag == 2) && (currentRoom == rooms.get(1)))||(randomDoorFlag == 3)) {
+            //任意门是固定的房间lobby || 任意门是所有房间的某一个门
             int random = (int) Math.round(Math.random());
-            if(random==1) {
+            if (random == 1) {
                 initRandomDoor(randomDoorFlag);
-            }else{
+            } else {
                 goRoomDefault(direction);
             }
-        } else {
+        }  else {
             goRoomDefault(direction);
         }
 
         showPrompt();
     }
-    public void initRandomDoor( int randomDoorFlag){
+
+    public void initRandomDoor(int randomDoorFlag) {
         RandomDoor rd = new RandomDoor(rooms);
         currentRoom = rd.getRoom();
-        System.out.println("任意门"+randomDoorFlag+"开启！！来到房间" + currentRoom);
+        System.out.println("任意门" + randomDoorFlag + "开启！！来到房间" + currentRoom);
     }
-    public void goRoomDefault(String direction){
+
+    public void goRoomDefault(String direction) {
         Room nextRoom = currentRoom.getExit(direction);
         if (nextRoom == null) {
             System.out.println("那里没有门！");
@@ -131,6 +117,7 @@ public class Game {
             currentRoom = nextRoom;
         }
     }
+
     public void showPrompt() {
         System.out.println("你在" + currentRoom);
         if (currentRoom.toString().equals("秘密基地")) {
