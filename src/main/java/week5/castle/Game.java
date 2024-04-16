@@ -83,39 +83,30 @@ public class Game {
     2.任意门只在这个房间所有门之间轮转
     3.任意门只在这个城堡所有门之间轮转*/
     public void goRoom(String direction) {
-        if ((randomDoorFlag == 1)&&((currentRoom == rooms.get(1)) && (direction.equals("west")))) {
-            //任意门是固定的房间和方向，lobby，west
-            //从这个房间的这个出口出去，每次都会走到不同的房间
-            initRandomDoor(randomDoorFlag);
-        } else if (((randomDoorFlag == 2) && (currentRoom == rooms.get(1)))||(randomDoorFlag == 3)) {
-            //任意门是固定的房间lobby || 任意门是所有房间的某一个门
-            int random = (int) Math.round(Math.random());
-            if (random == 1) {
-                initRandomDoor(randomDoorFlag);
+//        RandomDoor randomDoor= new RandomDoorFirst(rooms,rooms.get(1),"west");//任意门是固定的房间和方向，lobby，west。测试方法：go east+go west
+//        RandomDoor randomDoor= new RandomDoorSecond(rooms,rooms.get(1));//任意门只在lobby房间所有门之间轮转
+        RandomDoor randomDoor = new RandomDoorThird(rooms, getDoorsSum());//任意门只在这个城堡所有门之间轮转
+        if (randomDoor.isOpen(currentRoom, direction)) {
+            currentRoom = randomDoor.getRoom();
+            System.out.println("任意门开启！！来到房间" + currentRoom);
+        } else {
+            Room nextRoom = currentRoom.getExit(direction);
+            if (nextRoom == null) {
+                System.out.println("那里没有门！");
+                return;
             } else {
-                goRoomDefault(direction);
+                currentRoom = nextRoom;
             }
-        }  else {
-            goRoomDefault(direction);
         }
-
         showPrompt();
     }
 
-    public void initRandomDoor(int randomDoorFlag) {
-        RandomDoor rd = new RandomDoor(rooms);
-        currentRoom = rd.getRoom();
-        System.out.println("任意门" + randomDoorFlag + "开启！！来到房间" + currentRoom);
-    }
-
-    public void goRoomDefault(String direction) {
-        Room nextRoom = currentRoom.getExit(direction);
-        if (nextRoom == null) {
-            System.out.println("那里没有门！");
-            return;
-        } else {
-            currentRoom = nextRoom;
+    public int getDoorsSum() {
+        int sum = 0;
+        for (Room room : rooms) {
+            sum += room.getExitArray().length;
         }
+        return sum / 2;
     }
 
     public void showPrompt() {
@@ -177,8 +168,6 @@ public class Game {
     public static void main(String[] args) {
         Game game = new Game(5);
         game.printWelcome();
-//        game.setRandomDoorFlag(1);//go east+go west
-        game.setRandomDoorFlag(2);//go east
         game.play(game);
         System.out.println("感谢您的光临。再见！");
 //        in.close();
