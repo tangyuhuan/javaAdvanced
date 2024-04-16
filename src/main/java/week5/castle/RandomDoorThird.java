@@ -13,7 +13,7 @@ public class RandomDoorThird extends RandomDoor {
         this.doorSum = doorSum;
     }
     @Override
-    public boolean isOpen(Room room, String direction) {
+    public boolean isOpen() {
         double num= 1.0/doorSum;
         if(Math.random()<num){
             return true;

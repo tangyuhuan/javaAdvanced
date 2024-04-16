@@ -10,11 +10,12 @@ public class Game {
     private int count;
     HashMap<String, Handler> handlers = new HashMap<String, Handler>();
     ArrayList<Room> rooms = new ArrayList<Room>();
-/*    把程序的硬编码尽可能写为框架和数据的结构：
-    命令的解析脱离if-else，定义不同的Handler来处理不同的命令，用Hash表来保存命令和Handler之间的关系
-    今后如果想增加新的handler的类型，只要修改两个地方
-    1.增加一个handlerXXXX继承handler
-    2.修改Game的构造函数，完全不需要修改play()*/
+
+    /*    把程序的硬编码尽可能写为框架和数据的结构：
+        命令的解析脱离if-else，定义不同的Handler来处理不同的命令，用Hash表来保存命令和Handler之间的关系
+        今后如果想增加新的handler的类型，只要修改两个地方
+        1.增加一个handlerXXXX继承handler
+        2.修改Game的构造函数，完全不需要修改play()*/
     public Game(int count) {
         this.count = count;
         handlers.put("go", new HandlerGo(this));
@@ -81,10 +82,11 @@ public class Game {
     2.任意门只在这个房间所有门之间轮转
     3.任意门只在这个城堡所有门之间轮转*/
     public void goRoom(String direction) {
-//        RandomDoor randomDoor= new RandomDoorFirst(rooms,rooms.get(1),"west");//任意门是固定的房间和方向，lobby，west。测试方法：go east+go west
-//        RandomDoor randomDoor= new RandomDoorSecond(rooms,rooms.get(1));//任意门只在lobby房间所有门之间轮转
+
+//        RandomDoor randomDoor = new RandomDoorFirst(rooms, rooms.get(1), currentRoom, "west", direction);//任意门是固定的房间和方向，lobby，west。测试方法：go east+go west
+//        RandomDoor randomDoor = new RandomDoorSecond(rooms, rooms.get(1), currentRoom);//任意门只在lobby房间所有门之间轮转
         RandomDoor randomDoor = new RandomDoorThird(rooms, getDoorsSum());//任意门只在这个城堡所有门之间轮转
-        if (randomDoor.isOpen(currentRoom, direction)) {
+        if (randomDoor.isOpen()) {
             currentRoom = randomDoor.getRoom();
             System.out.println("任意门开启！！来到房间" + currentRoom);
         } else {

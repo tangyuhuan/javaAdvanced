@@ -7,15 +7,13 @@ import java.util.HashSet;
 1.到达任意房间的基础功能 2.任意门是否开启的判断
 * */
 public class RandomDoor {
-    private Room room;
-    private String direction;
     private ArrayList<Room> rooms;
 
     public RandomDoor(ArrayList<Room> rooms) {
         this.rooms = rooms;
     }
     //任意门是否开启的判断
-    public boolean isOpen(Room room,String direction) {
+    public boolean isOpen() {
         return false;
     }
     // 到达任意房间

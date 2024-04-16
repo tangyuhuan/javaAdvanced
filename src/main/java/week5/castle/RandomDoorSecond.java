@@ -7,15 +7,17 @@ import java.util.ArrayList;
 */
 public class RandomDoorSecond extends RandomDoor {
     private Room room;
+    private Room currentRoom;
 
-    public RandomDoorSecond(ArrayList<Room> rooms, Room room) {
+    public RandomDoorSecond(ArrayList<Room> rooms, Room room, Room currentRoom) {
         super(rooms);
         this.room = room;
+        this.currentRoom = currentRoom;
     }
 
     @Override
-    public boolean isOpen(Room room, String direction) {
-        if(this.room.equals(room)) {
+    public boolean isOpen() {
+        if(this.room.equals(this.currentRoom)) {
             double num= 1.0/room.getExitArray().length;
             if(Math.random()<num){
                 return true;
