@@ -148,6 +148,7 @@ public class Game {
                 if (handler.isBye()) {
                     break;
                 }
+                //新命令加入的时候，help能自动输出，避免硬编码
                 if (handler.isHelp()) {
                     value = handlers.keySet().toString().substring(1, handlers.keySet().toString().length() - 1);
                 }
