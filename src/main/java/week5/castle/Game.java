@@ -4,16 +4,17 @@ import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.Scanner;
 
-/*今后如果想增加新的handler的类型，只要修改两个地方
-1.增加一个handlerXXXX继承handler
-2.修改Game的构造函数，完全不需要修改play()*/
+
 public class Game {
     private Room currentRoom;
     private int count;
     HashMap<String, Handler> handlers = new HashMap<String, Handler>();
     ArrayList<Room> rooms = new ArrayList<Room>();
-    private int randomDoorFlag;
-
+/*    把程序的硬编码尽可能写为框架和数据的结构：
+    命令的解析脱离if-else，定义不同的Handler来处理不同的命令，用Hash表来保存命令和Handler之间的关系
+    今后如果想增加新的handler的类型，只要修改两个地方
+    1.增加一个handlerXXXX继承handler
+    2.修改Game的构造函数，完全不需要修改play()*/
     public Game(int count) {
         this.count = count;
         handlers.put("go", new HandlerGo(this));
@@ -22,9 +23,6 @@ public class Game {
         createRooms();
     }
 
-    public void setRandomDoorFlag(int randomDoorFlag) {
-        this.randomDoorFlag = randomDoorFlag;
-    }
 
     private void createRooms() {
         Room outside, lobby, pub, study, bedroom, secreroom;
