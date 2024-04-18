@@ -1,7 +1,9 @@
 package week6.cells.cell;
 
 import java.awt.Graphics;
- 
+/*
+cell表示一个细胞（图中一个格子）
+* */
 public class Cell {
 	private boolean alive = false;
 	

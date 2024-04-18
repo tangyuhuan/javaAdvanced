@@ -1,6 +1,6 @@
-package week6.foxnrabbit.field;
+package week7.foxnrabbit.field;
 
-import week6.foxnrabbit.cell.Cell;
+import week7.foxnrabbit.cell.Cell;
 
 import java.util.ArrayList;
 /*Field类：
@@ -73,7 +73,7 @@ public class Field {
 		return ret;
 	}
 
-	public Cell remove( int row, int col ){
+	public Cell remove(int row, int col ){
 		Cell ret = field[row][col];
 		field[row][col] = null;
 		return ret;

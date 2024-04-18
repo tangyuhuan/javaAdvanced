@@ -1,8 +1,6 @@
-package week5.castle;
+package week7.castle;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.Objects;
 
 /*通过封装getExitDesc、getExit来降低耦合*/
 public class Room {

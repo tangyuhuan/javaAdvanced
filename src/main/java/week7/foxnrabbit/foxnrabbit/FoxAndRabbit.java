@@ -1,14 +1,17 @@
-package week6.foxnrabbit.foxnrabbit;
+package week7.foxnrabbit.foxnrabbit;
 
-import week6.foxnrabbit.Animal.Animal;
-import week6.foxnrabbit.Animal.Fox;
-import week6.foxnrabbit.Animal.Rabbit;
-import week6.foxnrabbit.cell.Cell;
-import week6.foxnrabbit.field.Field;
-import week6.foxnrabbit.field.Location;
-import week6.foxnrabbit.field.View;
+import week7.foxnrabbit.Animal.Animal;
+import week7.foxnrabbit.Animal.Fox;
+import week7.foxnrabbit.Animal.Rabbit;
+import week7.foxnrabbit.cell.Cell;
+import week7.foxnrabbit.field.Field;
+import week7.foxnrabbit.field.Location;
+import week7.foxnrabbit.field.View;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.ArrayList;
 /*习题描述：
 狐狸、兔子都有年龄；
@@ -20,11 +23,20 @@ import java.util.ArrayList;
 /*FoxAndRabbit程序执行入口：
 主要思想：两层for循环，挨个cell执行移动、进食、生育；每次循环结束后repaint view；*/
 
-
+//内部类版：
 public class FoxAndRabbit{
     private Field thefield;
     private View theview;
-
+    private JFrame frame;
+    //内部类:定义在一个类内部的类，他可以自由访问外部类的成员
+    private class StepListener implements ActionListener{
+        @Override
+        public void actionPerformed(ActionEvent e) {
+            System.out.println("按下了");
+            step();
+            frame.repaint();
+        }
+    }
     public FoxAndRabbit( int size ){
         thefield = new Field(size, size);
         for( int row = 0; row <thefield.getHeight(); row++ ){
@@ -38,11 +50,26 @@ public class FoxAndRabbit{
             }
         }
         theview = new View(thefield);
-        JFrame frame = new JFrame();
+        frame = new JFrame();
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
         frame.setTitle("FoxAndRabbit");
         frame.add(theview);
+        JButton btnStep = new JButton("Step");
+        frame.add(btnStep, BorderLayout.NORTH);//frame默认的布局管理器是BorderLayout，需要指定是哪一块区域（默认CENTER）
+        //1.使用匿名内部类,定义在函数内部的类
+        btnStep.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("按下了");
+                step();
+                frame.repaint();
+
+            }
+        });
+        //2.使用内部类，定义在类的内部的类
+//        btnStep.addActionListener(new StepListener());
+
         frame.pack();
         frame.setVisible(true);
     }
@@ -66,7 +93,7 @@ public class FoxAndRabbit{
                             ArrayList<Animal> listRabbit = new ArrayList<Animal>();
                             //得到当前邻居周围所有的兔子listRabbit
                             for( Cell an : neighbour ){
-                                if( an instanceof Rabbit ){
+                                if( an instanceof Rabbit){
                                     listRabbit.add( (Rabbit)an );
                                 }
                             }
@@ -104,6 +131,6 @@ public class FoxAndRabbit{
 
     public static void main(String[] args) {
         FoxAndRabbit fnr = new FoxAndRabbit(30);
-        fnr.start(100);
+//        fnr.start(100);
     }
 }
