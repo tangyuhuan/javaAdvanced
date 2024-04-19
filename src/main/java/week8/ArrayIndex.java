@@ -1,7 +1,7 @@
 package week8;
 
 import java.util.Scanner;
-
+//处理异常
 public class ArrayIndex {
 
     public static void main(String[] args) {
