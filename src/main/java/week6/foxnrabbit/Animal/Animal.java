@@ -33,7 +33,23 @@ public abstract class Animal{
         return (double)age/ageLimit;
     }
 
-    public abstract Animal breed();
+//    public abstract Animal breed();
+    //Fox和rabbit中的breed方法几乎一样，优化一下
+    //可以使用模板方法设计模式来定义通用逻辑，并允许子类提供特定的行为。
+    //定义一个Animal类，其中包含一个模板方法breed：
+    public Animal breed(){
+        Animal ret = null;
+        if( isBreedable() && Math.random() < getBreedProbability() ){   //5%的几率breed
+            ret = breedAnimal();//调用
+        }
+        return ret;
+    }
+    protected double getBreedProbability(){
+        return 1.0;
+    }
+    protected  Animal breedAnimal(){
+        return breedAnimal();
+    }
 
     public void grow(){
         age++;

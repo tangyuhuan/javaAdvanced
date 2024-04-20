@@ -23,13 +23,23 @@ public class Fox extends Animal implements Cell{
         g.fillRect(x, y, size, size);
     }
 
+//    @Override
+//    public Animal breed() {
+//        Animal ret = null;
+//        if( isBreedable() && Math.random() < 0.05 ){   //5%的几率breed
+//            ret = new Fox();
+//        }
+//        return ret;
+//    }
+//为Fox类提供具体的实现：
     @Override
-    public Animal breed() {
-        Animal ret = null;
-        if( isBreedable() && Math.random() < 0.05 ){   //5%的几率breed
-            ret = new Fox();
-        }
-        return ret;
+    protected double getBreedProbability() {
+        return 0.05;
+    }
+
+    @Override
+    protected Animal breedAnimal() {
+        return new Fox();
     }
 
     @Override

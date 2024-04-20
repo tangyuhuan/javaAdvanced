@@ -20,13 +20,23 @@ public class Rabbit extends Animal implements Cell{
         g.fillRect(x, y, size, size);
     }
 
+//    @Override
+//    public Animal breed() {
+//        Animal ret = null;
+//        if( isBreedable() && Math.random() < 0.12 ){   //12%的几率breed
+//            ret = new Rabbit();
+//        }
+//        return ret;
+//    }
+//为Rabbit类提供具体的实现：
     @Override
-    public Animal breed() {
-        Animal ret = null;
-        if( isBreedable() && Math.random() < 0.12 ){   //12%的几率breed
-            ret = new Rabbit();
-        }
-        return ret;
+    protected double getBreedProbability() {
+        return 0.12;
+    }
+
+    @Override
+    protected Animal breedAnimal() {
+        return new Rabbit();
     }
 
     @Override
