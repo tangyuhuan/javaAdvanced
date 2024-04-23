@@ -47,6 +47,8 @@ public abstract class Animal{
     protected double getBreedProbability(){
         return 1.0;
     }
+    //下面这种写法，如果new Animal对象，调用breedAnimal()是会死循环的，stackoverflow错误终止程序
+    //本案例中没有这种使用场景
     protected  Animal breedAnimal(){
         return breedAnimal();
     }
